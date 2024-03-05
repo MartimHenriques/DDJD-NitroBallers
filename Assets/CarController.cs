@@ -15,6 +15,11 @@ public class CarController : MonoBehaviour
 
     public Rigidbody2D carRigidBody;
 
+    private void Start()
+    {
+        transform.rotation = Quaternion.Euler(0, 0, -90);
+    }
+
     private void FixedUpdate()
     {
         ApplyEngineForce();
@@ -28,19 +33,19 @@ public class CarController : MonoBehaviour
     {
         if (accelerationInput == 0)
         {
-            carRigidBody.drag = Mathf.Lerp(carRigidBody.drag, 3.0f, Time.deltaTime * 3);
+            carRigidBody.drag = 3;
         }
         else
             carRigidBody.drag = 0;
 
-        Vector2 engineForceVector = transform.up * accelerationInput * accelerationFactor;
+        Vector2 engineForceVector = accelerationFactor * accelerationInput * transform.up;
 
         carRigidBody.AddForce(engineForceVector, ForceMode2D.Force);
     }
 
     void ApplySteering()
     {
-        float minSpeedBeforeTurningFactor = carRigidBody.velocity.magnitude / 5;
+        float minSpeedBeforeTurningFactor = carRigidBody.velocity.magnitude;
         minSpeedBeforeTurningFactor = Mathf.Clamp01(minSpeedBeforeTurningFactor);
 
         rotationAngle -= steeringFactor * steeringInput * minSpeedBeforeTurningFactor;
