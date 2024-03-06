@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class LogicScript : MonoBehaviour
 {
     public GameObject boosterObjectPrefab;
+    public CarController playerCar;
 
     public int playerScore;
     public int botScore;
@@ -17,6 +18,7 @@ public class LogicScript : MonoBehaviour
     {
         InitializeBoosters();
 
+        playerCar = GameObject.FindGameObjectWithTag("Player").GetComponent<CarController>();
         playerScore = 0;
         botScore = 0;
         textScore.text = "0 - 0";
