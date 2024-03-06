@@ -1,43 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BoosterScript : MonoBehaviour
 {
+    public LogicScript logicManager;
 
-    public float spawnDelay = 5;
-    private float timer = 0;
+    public float activateDelay;
     
     void Start()
     {
-        
+        activateDelay = 5;
+        logicManager = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
     }
 
     void Update()
     {
-        if (!gameObject.activeSelf)
-        {
-            timer += Time.deltaTime;
-
-            if (timer > spawnDelay)
-            {
-                timer = 0;
-                gameObject.SetActive(true);
-            }
-        }
+        
     }
-
-    //Future reference to spawn more boosters
-    /*void SpawnBoosterBall()
-    {
-        gameObject.SetActive(true);
-    }*/
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             gameObject.SetActive(false);
+            logicManager.HandleBoosterDeactivated(gameObject, activateDelay);
         }
     }
 }

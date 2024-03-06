@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class LogicScript : MonoBehaviour
 {
+    public GameObject boosterObject;
+    public GameObject playerCar;
+
     public int playerScore;
     public int botScore;
     public Text textScore;
@@ -29,6 +32,35 @@ public class LogicScript : MonoBehaviour
     {
         botScore++;
         textScore.text = playerScore.ToString() + " - " + botScore.ToString();
+    }
+
+    [ContextMenu("ResetScore")]
+    public void ResetScore()
+    {
+        playerScore = 0;
+        botScore = 0;
+        textScore.text = "0 - 0";
+    }
+
+    public void HandleBoosterDeactivated(GameObject boosterObject, float delay)
+    {
+        this.boosterObject = boosterObject;
+        StartCoroutine(ReactivateBooster(delay));
+    }
+
+    private IEnumerator ReactivateBooster(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // Activate the booster object
+        if (boosterObject != null)
+        {
+            boosterObject.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("Booster object is null");
+        }
     }
 
 }
