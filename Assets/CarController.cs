@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
-    public float accelerationFactor = 30.0f;
-    public float steeringFactor = 3.5f;
-    public float driftFactor = 0.95f;
+    public float accelerationFactor;
+    public float steeringFactor;
+    public float driftFactor;
 
     float accelerationInput = 0;
     float steeringInput = 0;
@@ -17,7 +15,9 @@ public class CarController : MonoBehaviour
 
     private void Start()
     {
-        transform.rotation = Quaternion.Euler(0, 0, -90);
+        accelerationFactor = 5.0f;
+        steeringFactor = 3.5f;
+        driftFactor = 0.3f;
     }
 
     private void FixedUpdate()
@@ -38,17 +38,16 @@ public class CarController : MonoBehaviour
         else
             carRigidBody.drag = 0;
 
-        Vector2 engineForceVector = accelerationFactor * accelerationInput * transform.up;
+        //Vector2 engineForceVector = transform.up;
+        //carRigidBody.AddForce(engineForceVector, ForceMode2D.Force);
+        
+        carRigidBody.velocity = transform.up * accelerationFactor * accelerationInput;
 
-        carRigidBody.AddForce(engineForceVector, ForceMode2D.Force);
     }
 
     void ApplySteering()
     {
-        float minSpeedBeforeTurningFactor = carRigidBody.velocity.magnitude;
-        minSpeedBeforeTurningFactor = Mathf.Clamp01(minSpeedBeforeTurningFactor);
-
-        rotationAngle -= steeringFactor * steeringInput * minSpeedBeforeTurningFactor;
+        rotationAngle -= steeringFactor * steeringInput;
 
         carRigidBody.MoveRotation(rotationAngle);
     }
