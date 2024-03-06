@@ -12,7 +12,6 @@ public class BoosterScript : MonoBehaviour
     void Start()
     {
         activateDelay = 5;
-        logicManager = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
     }
 
     void Update()

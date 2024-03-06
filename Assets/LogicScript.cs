@@ -5,33 +5,50 @@ using UnityEngine.UI;
 
 public class LogicScript : MonoBehaviour
 {
-    public GameObject boosterObject;
-    public GameObject playerCar;
+    public GameObject boosterObjectPrefab;
 
     public int playerScore;
     public int botScore;
     public Text textScore;
 
-    // Start is called before the first frame update
+    private Dictionary<GameObject, float> deactivatedBoosters = new Dictionary<GameObject, float>();
+
     void Start()
     {
+        InitializeBoosters();
+
         playerScore = 0;
         botScore = 0;
         textScore.text = "0 - 0";
+    }
+
+    void InitializeBoosters()
+    {
+        Vector2[] boostersPos = new Vector2[4];
+        boostersPos[0] = new Vector2(6, 4);
+        boostersPos[1] = new Vector2(-6, 4);
+        boostersPos[2] = new Vector2(-6, -4);
+        boostersPos[3] = new Vector2(6, -4);
+
+        foreach (Vector2 pos in boostersPos)
+        {
+            GameObject booster = Instantiate(boosterObjectPrefab, pos, Quaternion.identity);
+            booster.GetComponent<BoosterScript>().logicManager = this;
+        }
     }
 
     [ContextMenu("AddPlayerScore")]
     public void AddPlayerScore()
     {
         playerScore++;
-        textScore.text = playerScore.ToString() + " - " + botScore.ToString();
+        UpdateScoreText();
     }
 
     [ContextMenu("AddBotScore")]
     public void AddBotScore()
     {
         botScore++;
-        textScore.text = playerScore.ToString() + " - " + botScore.ToString();
+        UpdateScoreText();
     }
 
     [ContextMenu("ResetScore")]
@@ -39,28 +56,33 @@ public class LogicScript : MonoBehaviour
     {
         playerScore = 0;
         botScore = 0;
-        textScore.text = "0 - 0";
+        UpdateScoreText();
+    }
+
+    void UpdateScoreText()
+    {
+        textScore.text = playerScore.ToString() + " - " + botScore.ToString();
     }
 
     public void HandleBoosterDeactivated(GameObject boosterObject, float delay)
     {
-        this.boosterObject = boosterObject;
-        StartCoroutine(ReactivateBooster(delay));
+        deactivatedBoosters[boosterObject] = delay;
+        StartCoroutine(ReactivateBooster(boosterObject, delay));
     }
 
-    private IEnumerator ReactivateBooster(float delay)
+    private IEnumerator ReactivateBooster(GameObject boosterObject, float delay)
     {
         yield return new WaitForSeconds(delay);
 
-        // Activate the booster object
-        if (boosterObject != null)
+        // Reactivate the booster object
+        if (deactivatedBoosters.ContainsKey(boosterObject))
         {
+            deactivatedBoosters.Remove(boosterObject);
             boosterObject.SetActive(true);
         }
         else
         {
-            Debug.Log("Booster object is null");
+            Debug.Log("Booster object is not in the dictionary");
         }
     }
-
 }
