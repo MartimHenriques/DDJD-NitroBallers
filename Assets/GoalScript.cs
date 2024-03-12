@@ -25,11 +25,11 @@ public class GoalScript : MonoBehaviour
         if (collision.gameObject.layer == 3)
         {
             string parentObject = transform.parent.name;
-            if (parentObject == "Player Goal")
+            if (parentObject == "Player Goal" && !logicManager.isGoalTextDisplayed)
             {
                 logicManager.AddBotScore();
             }
-            else if (parentObject == "Bot Goal")
+            else if (parentObject == "Bot Goal" && !logicManager.isGoalTextDisplayed)
             {
                 logicManager.AddPlayerScore();
             }
