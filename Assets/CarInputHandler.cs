@@ -15,5 +15,11 @@ public class CarInputHandler : MonoBehaviour
         inputVector.y = Input.GetAxis("Vertical");
 
         carController.SetInputVector(inputVector);
+
+        if (Input.GetKeyDown(KeyCode.Space) && carController.boosterFuel)
+        {
+            Debug.Log("Space key was pressed.");
+            carController.ApplyBooster();
+        }
     }
 }

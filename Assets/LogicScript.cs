@@ -68,6 +68,8 @@ public class LogicScript : MonoBehaviour
 
     public void HandleBoosterDeactivated(GameObject boosterObject, float delay)
     {
+        playerCar.SetBoosterFuel(true);
+
         deactivatedBoosters[boosterObject] = delay;
         StartCoroutine(ReactivateBooster(boosterObject, delay));
     }

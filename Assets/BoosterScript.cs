@@ -11,7 +11,7 @@ public class BoosterScript : MonoBehaviour
     
     void Start()
     {
-        activateDelay = 5;
+        activateDelay = 7;
     }
 
     void Update()
