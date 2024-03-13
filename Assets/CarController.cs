@@ -32,7 +32,7 @@ public class CarController : MonoBehaviour
 
     void ApplyEngineForce()
     {
-        carRigidBody.velocity = transform.up * accelerationFactor * accelerationInput + transform.up * boosterPower;
+        carRigidBody.velocity = accelerationFactor * accelerationInput * transform.up + transform.up * boosterPower;
     }
 
     void ApplySteering()
@@ -61,7 +61,7 @@ public class CarController : MonoBehaviour
 
     public IEnumerator BoosterFuel()
     {
-        boosterPower = 3;
+        boosterPower = 4;
         yield return new WaitForSeconds(1.5f);
         boosterPower = 0;
     }
