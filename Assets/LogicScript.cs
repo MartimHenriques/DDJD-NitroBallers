@@ -77,7 +77,7 @@ public class LogicScript : MonoBehaviour
 
     public void HandleBoosterDeactivated(GameObject powerUpObject, float delay)
     {
-        playerCar.SetBoosterFuel(true);
+        playerCar.SetBoosterPowerUp(true);
 
         deactivatedPowerUps[powerUpObject] = delay;
         StartCoroutine(ReactivatePowerUp(powerUpObject, delay));
@@ -85,6 +85,8 @@ public class LogicScript : MonoBehaviour
 
     public void HandleSizeUpDeactivated(GameObject powerUpObject, float delay)
     {
+        playerCar.SetSizePowerUp(true);
+
         deactivatedPowerUps[powerUpObject] = delay;
         StartCoroutine(ReactivatePowerUp(powerUpObject, delay));
     }

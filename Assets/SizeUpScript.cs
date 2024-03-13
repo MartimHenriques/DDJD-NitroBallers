@@ -15,7 +15,7 @@ public class SizeUpScript : MonoBehaviour
 
     void Start()
     {
-        activateDelay = 7;
+        activateDelay = 12;
         targetScale = transform.localScale;
     }
 

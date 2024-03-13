@@ -16,7 +16,7 @@ public class BoosterScript : MonoBehaviour
     
     void Start()
     {
-        activateDelay = 7;
+        activateDelay = 12;
         targetScale = transform.localScale;
     }
 
