@@ -22,13 +22,12 @@ public class LogicScript : MonoBehaviour
 
     public bool isGoalTextDisplayed = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         playerScore = 0;
         botScore = 0;
         textScore.text = "0 - 0";
-        ResetGame();
+        goalText.gameObject.SetActive(false);
     }
 
     void ResetGame()
@@ -41,14 +40,9 @@ public class LogicScript : MonoBehaviour
 
         isGoalTextDisplayed = true;
 
-        // Display "GOAL" text
         goalText.text = "GOAL";
         goalText.gameObject.SetActive(true);
-
-        // Wait for 2 seconds
         yield return new WaitForSeconds(2f);
-
-        // Hide "GOAL" text
         goalText.gameObject.SetActive(false);
 
         // Reset positions
