@@ -6,17 +6,18 @@ using UnityEngine.UI;
 public class LogicScript : MonoBehaviour
 {
     public GameObject boosterObjectPrefab;
+    public GameObject sizeUpObjectPrefab;
     public CarController playerCar;
 
     public int playerScore;
     public int botScore;
     public Text textScore;
 
-    private Dictionary<GameObject, float> deactivatedBoosters = new Dictionary<GameObject, float>();
+    private Dictionary<GameObject, float> deactivatedPowerUps = new Dictionary<GameObject, float>();
 
     void Start()
     {
-        InitializeBoosters();
+        InitializePowerUps();
 
         playerCar = GameObject.FindGameObjectWithTag("Player").GetComponent<CarController>();
         playerScore = 0;
@@ -24,18 +25,26 @@ public class LogicScript : MonoBehaviour
         textScore.text = "0 - 0";
     }
 
-    void InitializeBoosters()
+    void InitializePowerUps()
     {
-        Vector2[] boostersPos = new Vector2[4];
-        boostersPos[0] = new Vector2(6, 4);
-        boostersPos[1] = new Vector2(-6, 4);
-        boostersPos[2] = new Vector2(-6, -4);
-        boostersPos[3] = new Vector2(6, -4);
+        Vector2[] powerUpsPos = new Vector2[4];
+        powerUpsPos[0] = new Vector2(6, 4);
+        powerUpsPos[1] = new Vector2(-6, 4);
+        powerUpsPos[2] = new Vector2(-6, -4);
+        powerUpsPos[3] = new Vector2(6, -4);
 
-        foreach (Vector2 pos in boostersPos)
+        for (int i = 0; i < powerUpsPos.Length; i++)
         {
-            GameObject booster = Instantiate(boosterObjectPrefab, pos, Quaternion.identity);
-            booster.GetComponent<BoosterScript>().logicManager = this;
+            if (i%2==0)
+            {
+                GameObject powerUp = Instantiate(boosterObjectPrefab, powerUpsPos[i], Quaternion.identity);
+                powerUp.GetComponent<BoosterScript>().logicManager = this;
+            }
+            else
+            {
+                GameObject powerUp = Instantiate(sizeUpObjectPrefab, powerUpsPos[i], Quaternion.identity);
+                powerUp.GetComponent<SizeUpScript>().logicManager = this;
+            }
         }
     }
 
@@ -66,23 +75,29 @@ public class LogicScript : MonoBehaviour
         textScore.text = playerScore.ToString() + " - " + botScore.ToString();
     }
 
-    public void HandleBoosterDeactivated(GameObject boosterObject, float delay)
+    public void HandleBoosterDeactivated(GameObject powerUpObject, float delay)
     {
         playerCar.SetBoosterFuel(true);
 
-        deactivatedBoosters[boosterObject] = delay;
-        StartCoroutine(ReactivateBooster(boosterObject, delay));
+        deactivatedPowerUps[powerUpObject] = delay;
+        StartCoroutine(ReactivatePowerUp(powerUpObject, delay));
     }
 
-    private IEnumerator ReactivateBooster(GameObject boosterObject, float delay)
+    public void HandleSizeUpDeactivated(GameObject powerUpObject, float delay)
+    {
+        deactivatedPowerUps[powerUpObject] = delay;
+        StartCoroutine(ReactivatePowerUp(powerUpObject, delay));
+    }
+
+    private IEnumerator ReactivatePowerUp(GameObject powerUpObject, float delay)
     {
         yield return new WaitForSeconds(delay);
 
         // Reactivate the booster object
-        if (deactivatedBoosters.ContainsKey(boosterObject))
+        if (deactivatedPowerUps.ContainsKey(powerUpObject))
         {
-            deactivatedBoosters.Remove(boosterObject);
-            boosterObject.SetActive(true);
+            deactivatedPowerUps.Remove(powerUpObject);
+            powerUpObject.SetActive(true);
         }
         else
         {

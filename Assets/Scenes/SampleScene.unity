@@ -1912,6 +1912,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boosterObjectPrefab: {fileID: 3421740242444763059, guid: ba925a3e130516444bf2d39c4075cbda, type: 3}
+  sizeUpObjectPrefab: {fileID: 938439201491304662, guid: f1ffd85bbd7ef3744a7789ec6c0c5af3, type: 3}
+  playerCar: {fileID: 0}
   playerScore: 0
   botScore: 1
   textScore: {fileID: 1270575723}
@@ -2020,7 +2022,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accelerationFactor: 30
   steeringFactor: 3.5
-  driftFactor: 1
+  boosterPower: 0
+  boosterFuel: 0
   carRigidBody: {fileID: 2109857323}
 --- !u!61 &2109857327
 BoxCollider2D:
