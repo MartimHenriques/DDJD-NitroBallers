@@ -12,6 +12,8 @@ public class LogicScript : MonoBehaviour
 
     public int playerScore;
     public int botScore;
+    public int countdownTime = 3;
+    public Text countdownText;
     public Text textScore;
     public TextMeshProUGUI goalText;
 
@@ -30,6 +32,7 @@ public class LogicScript : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(Countdown());
         InitializePowerUps();
 
         playerCar = GameObject.FindGameObjectWithTag("Player");
@@ -43,6 +46,20 @@ public class LogicScript : MonoBehaviour
         botScore = 0;
         textScore.text = "0 - 0";
         goalText.gameObject.SetActive(false);
+    }
+
+    IEnumerator Countdown()
+    {
+        countdownText.gameObject.SetActive(true);
+        while (countdownTime > 0)
+        {
+            countdownText.text = countdownTime.ToString();
+            yield return new WaitForSeconds(1f);
+            countdownTime--;
+        }
+        countdownText.text = "GO!";
+        yield return new WaitForSeconds(1f);
+        countdownText.gameObject.SetActive(false);
     }
 
     void ResetGame()

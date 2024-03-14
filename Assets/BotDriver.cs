@@ -15,6 +15,11 @@ public class BotDriver : MonoBehaviour
         carController = GetComponent<CarController>();
     }
 
+    private void Start()
+    {
+        targetPosition = targetPositionTransform.position;
+    }
+
     void Update()
     {
         targetPosition = targetPositionTransform.position;
