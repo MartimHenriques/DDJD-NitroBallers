@@ -34,7 +34,7 @@ public class BoosterScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             gameObject.SetActive(false);
-            logicManager.HandleBoosterDeactivated(gameObject, activateDelay);
+            logicManager.HandleBoosterDeactivated(collision.gameObject, gameObject, activateDelay);
         }
     }
 }

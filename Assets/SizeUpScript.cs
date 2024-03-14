@@ -30,10 +30,10 @@ public class SizeUpScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Bot"))
         {
             gameObject.SetActive(false);
-            logicManager.HandleSizeUpDeactivated(gameObject, activateDelay);
+            logicManager.HandleSizeUpDeactivated(collision.gameObject, gameObject, activateDelay);
         }
     }
 }

@@ -18,10 +18,14 @@ public class LogicScript : MonoBehaviour
     public TextMeshProUGUI goalText;
 
     public Transform playerCarStartPosition;
+
+    public Transform botCarStartPosition;
     public Transform ballStartPosition;
 
     public GameObject playerCar;
     public CarController playerCarController;
+
+    public GameObject botCar;
     public GameObject ball;
 
     public bool isGoalTextDisplayed = false;
@@ -35,6 +39,11 @@ public class LogicScript : MonoBehaviour
         InitializePowerUps();
 
         playerCar = GameObject.FindGameObjectWithTag("Player");
+        playerCar.transform.rotation = Quaternion.Euler(0, 0, -90);
+        botCar = GameObject.FindGameObjectWithTag("Bot");
+        botCar.transform.rotation = Quaternion.Euler(0, 0, 90);
+        ball = GameObject.FindGameObjectWithTag("Ball");
+
         playerCarController = playerCar.GetComponent<CarController>();
         playerScore = 0;
         botScore = 0;
@@ -59,7 +68,8 @@ public class LogicScript : MonoBehaviour
         yield return new WaitForSeconds(2f);
         goalText.gameObject.SetActive(false);
 
-        playerCar.transform.position = playerCarStartPosition.position;
+        playerCar.transform.SetPositionAndRotation(playerCarStartPosition.position, Quaternion.Euler(0, 0, -90));
+        botCar.transform.SetPositionAndRotation(botCarStartPosition.position, Quaternion.Euler(0, 0, 90));
         ball.transform.position = ballStartPosition.position;
         ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
@@ -119,17 +129,17 @@ public class LogicScript : MonoBehaviour
         }
     }
 
-    public void HandleBoosterDeactivated(GameObject powerUpObject, float delay)
+    public void HandleBoosterDeactivated(GameObject collider, GameObject powerUpObject, float delay)
     {
-        playerCarController.SetBoosterPowerUp(true);
+        collider.GetComponent<CarController>().SetBoosterPowerUp(true);
 
         deactivatedPowerUps[powerUpObject] = delay;
         StartCoroutine(ReactivatePowerUp(powerUpObject, delay));
     }
 
-    public void HandleSizeUpDeactivated(GameObject powerUpObject, float delay)
+    public void HandleSizeUpDeactivated(GameObject collider, GameObject powerUpObject, float delay)
     {
-        playerCarController.SetSizePowerUp(true);
+        collider.GetComponent<CarController>().SetSizePowerUp(true);
 
         deactivatedPowerUps[powerUpObject] = delay;
         StartCoroutine(ReactivatePowerUp(powerUpObject, delay));
