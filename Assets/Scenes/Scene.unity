@@ -6422,6 +6422,7 @@ MonoBehaviour:
   playerCarController: {fileID: 0}
   ball: {fileID: 1098346217}
   isGoalTextDisplayed: 0
+  isWinner: 0
 --- !u!4 &1943005594
 Transform:
   m_ObjectHideFlags: 0
