@@ -23,7 +23,6 @@ public class LogicScript : MonoBehaviour
     public Transform ballStartPosition;
 
     public GameObject playerCar;
-    public CarController playerCarController;
 
     public GameObject botCar;
     public GameObject ball;
@@ -44,7 +43,6 @@ public class LogicScript : MonoBehaviour
         botCar.transform.rotation = Quaternion.Euler(0, 0, 90);
         ball = GameObject.FindGameObjectWithTag("Ball");
 
-        playerCarController = playerCar.GetComponent<CarController>();
         playerScore = 0;
         botScore = 0;
         textScore.text = "0 - 0";
