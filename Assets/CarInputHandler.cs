@@ -9,6 +9,7 @@ public class CarInputHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         Vector2 inputVector = Vector2.zero;
 
         inputVector.x = Input.GetAxis("Horizontal");
@@ -16,16 +17,17 @@ public class CarInputHandler : MonoBehaviour
 
         carController.SetInputVector(inputVector);
 
-        if (Input.GetKeyDown(KeyCode.Space) && carController.boosterPowerUp && !carController.isBoosted)
+        if (!PauseMenu.isPaused)
         {
-            Debug.Log("Space key was pressed.");
-            carController.ApplyBooster();
-        }
+            if (Input.GetKeyDown(KeyCode.Space) && carController.boosterPowerUp && !carController.isBoosted)
+            {
+                carController.ApplyBooster();
+            }
 
-        if (Input.GetKeyDown(KeyCode.U) && carController.sizePowerUp && !carController.isBig)
-        {
-            Debug.Log("U key was pressed.");
-            carController.ApplySizeUp();
+            if (Input.GetKeyDown(KeyCode.U) && carController.sizePowerUp && !carController.isBig)
+            {
+                carController.ApplySizeUp();
+            }
         }
     }
 }

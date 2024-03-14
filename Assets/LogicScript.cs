@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor.PackageManager.Requests;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LogicScript : MonoBehaviour
 {
@@ -16,15 +18,19 @@ public class LogicScript : MonoBehaviour
     public TextMeshProUGUI goalText;
 
     public Transform playerCarStartPosition;
+
     public Transform botCarStartPosition;
     public Transform ballStartPosition;
 
     public GameObject playerCar;
     public CarController playerCarController;
+
     public GameObject botCar;
     public GameObject ball;
 
     public bool isGoalTextDisplayed = false;
+
+    public int isWinner;
 
     private Dictionary<GameObject, float> deactivatedPowerUps = new Dictionary<GameObject, float>();
 
@@ -43,6 +49,8 @@ public class LogicScript : MonoBehaviour
         botScore = 0;
         textScore.text = "0 - 0";
         goalText.gameObject.SetActive(false);
+        isWinner = 0;
+        isGoalTextDisplayed = false;
     }
 
     void ResetGame()
@@ -60,7 +68,6 @@ public class LogicScript : MonoBehaviour
         yield return new WaitForSeconds(2f);
         goalText.gameObject.SetActive(false);
 
-        // Reset positions
         playerCar.transform.SetPositionAndRotation(playerCarStartPosition.position, Quaternion.Euler(0, 0, -90));
         botCar.transform.SetPositionAndRotation(botCarStartPosition.position, Quaternion.Euler(0, 0, 90));
         ball.transform.position = ballStartPosition.position;
@@ -98,6 +105,13 @@ public class LogicScript : MonoBehaviour
         playerScore++;
         textScore.text = playerScore.ToString() + " - " + botScore.ToString();
         ResetGame();
+        if (playerScore == 3)
+        {
+            isWinner = 1;
+            // Store the winner information in PlayerPrefs
+            PlayerPrefs.SetInt("Winner", isWinner);
+            SceneManager.LoadScene("GameOver");
+        }
     }
 
     [ContextMenu("AddBotScore")]
@@ -106,6 +120,13 @@ public class LogicScript : MonoBehaviour
         botScore++;
         textScore.text = playerScore.ToString() + " - " + botScore.ToString();
         ResetGame();
+        if (botScore == 3)
+        {
+            isWinner = 2;
+            // Store the winner information in PlayerPrefs
+            PlayerPrefs.SetInt("Winner", isWinner);
+            SceneManager.LoadScene("GameOver");
+        }
     }
 
     public void HandleBoosterDeactivated(GameObject collider, GameObject powerUpObject, float delay)
