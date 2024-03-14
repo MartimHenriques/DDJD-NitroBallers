@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class BoosterScript : MonoBehaviour
+public class SizeUpScript : MonoBehaviour
 {
     public LogicScript logicManager;
 
@@ -13,7 +12,7 @@ public class BoosterScript : MonoBehaviour
     private readonly float maxScale = 2f;
     private readonly float scaleSpeed = 2f;
     private Vector3 targetScale;
-    
+
     void Start()
     {
         activateDelay = 12;
@@ -34,7 +33,7 @@ public class BoosterScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             gameObject.SetActive(false);
-            logicManager.HandleBoosterDeactivated(gameObject, activateDelay);
+            logicManager.HandleSizeUpDeactivated(gameObject, activateDelay);
         }
     }
 }
